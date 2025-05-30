@@ -171,7 +171,7 @@ func (sm *SessionManager) AddWatchPath(sessionID, path string) error {
 		}
 	}
 
-	session.watchedPaths[path] = true
+	session.Watch(path)
 
 	if err := sm.watcher.Add(path); err != nil {
 		return err
