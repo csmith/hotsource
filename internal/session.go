@@ -47,8 +47,8 @@ func (s *Session) Close() {
 }
 
 func (s *Session) Watch(path string) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
 	s.watchedPaths[path] = true
 }
