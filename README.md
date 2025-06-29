@@ -3,7 +3,7 @@
 Hot source provides an easy way to make your web frontend automatically reload
 during development when you make changes to it.
 
-![demo](demo.webm)
+![demo](demo.avif)
 
 ## Why?
 
