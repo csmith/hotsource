@@ -58,7 +58,7 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		requestedPath := filepath.Join(h.dir, r.URL.Path)
 		if err := h.sm.AddWatchPath(sessionID, requestedPath); err != nil {
-			slog.Debug("Could not watch requested path", "path", requestedPath, "error", err, "source", "hostsource")
+			slog.Debug("Could not watch requested path", "path", requestedPath, "error", err, "library", "hostsource")
 		}
 
 		rec.Write([]byte(fmt.Sprintf(`<script>(()=>{const sessionId='%s';function connect(){const ws=new WebSocket('ws://'+location.host+'/_reload');ws.onopen=()=>ws.send(sessionId);ws.onmessage=()=>location.reload();ws.onclose=()=>setTimeout(connect,1000);ws.onerror=()=>setTimeout(connect,1000);}connect();})();</script>`, sessionID)))
@@ -67,7 +67,7 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		requestedPath := filepath.Join(h.dir, r.URL.Path)
 		h.sm.GetOrCreateSession(cookie.Value)
 		if err := h.sm.AddWatchPath(cookie.Value, requestedPath); err != nil {
-			slog.Debug("Could not watch requested path", "path", requestedPath, "error", err, "source", "hostsource")
+			slog.Debug("Could not watch requested path", "path", requestedPath, "error", err, "library", "hostsource")
 		}
 	}
 
@@ -78,25 +78,25 @@ func handleWebSocket(sessions *internal.SessionManager) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		conn, err := websocket.Accept(w, r, nil)
 		if err != nil {
-			slog.Debug("Failed to accept websocket connection", "error", err, "source", "hostsource")
+			slog.Debug("Failed to accept websocket connection", "error", err, "library", "hostsource")
 			return
 		}
 
-		slog.Debug("Live reload websocket connection opened", "remote_addr", r.RemoteAddr, "source", "hostsource")
+		slog.Debug("Live reload websocket connection opened", "remote_addr", r.RemoteAddr, "library", "hostsource")
 
 		ctx, cancel := context.WithCancel(r.Context())
 		defer cancel()
 
 		_, msg, err := conn.Read(ctx)
 		if err != nil {
-			slog.Debug("Failed to read session ID", "error", err, "source", "hostsource")
+			slog.Debug("Failed to read session ID", "error", err, "library", "hostsource")
 			conn.Close(websocket.StatusInternalError, "")
 			return
 		}
 
 		sessionID := string(msg)
 		if !sessions.SessionExists(sessionID) {
-			slog.Debug("Unknown session ID, telling client to reload", "session_id", sessionID, "source", "hostsource")
+			slog.Debug("Unknown session ID, telling client to reload", "session_id", sessionID, "library", "hostsource")
 			conn.Write(ctx, websocket.MessageText, []byte("reload"))
 			conn.Close(websocket.StatusNormalClosure, "reload")
 			return

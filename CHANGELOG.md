@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.3 - 2025-07-02
+
+### Other changes
+
+- Log lines from hotsource now use `"library": "hotsource"` not
+  `"source": "hotsource"` as the latter conflicts with slog's `AddSource` option
+
 ## 1.0.2 - 2025-05-31
 
 ### Bug fixes
