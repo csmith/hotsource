@@ -11,13 +11,21 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 // New creates a new hotsource handler that will serve files from the given
 // directory. HTML files will have javascript injected that will cause them
 // to reload when any requested resource is changed on disk.
 func New(dir string) (http.Handler, error) {
-	sm, err := internal.NewSessionManager()
+	return NewWithDebounce(dir, 500*time.Millisecond)
+}
+
+// NewWithDebounce creates a new hotsource handler with a custom debounce duration.
+// Changes to files will be batched and notifications will be sent after the
+// specified duration of inactivity.
+func NewWithDebounce(dir string, debounce time.Duration) (http.Handler, error) {
+	sm, err := internal.NewSessionManager(debounce)
 	if err != nil {
 		return nil, fmt.Errorf("unable to create session manager: %w", err)
 	}

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.4 - 2025-07-07
+
+### New features
+
+- Updates are now debounced by 500ms by default. This can be changed by using
+  new `WithDebouce` functions.
+
 ## 1.0.3 - 2025-07-02
 
 ### Other changes
