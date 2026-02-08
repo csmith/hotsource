@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot Source Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Hot Source Live Reloading Demo</h1>
+        <p class="subtitle">This page demonstrates live HTML reloading with the Hot Source library</p>
+        
+        <div class="demo-box">
+            <h2>Try it out!</h2>
+            <p>When hot reloading is enabled:</p>
+            <ul>
+                <li>Edit this HTML file and save: the page will automatically reload</li>
+                <li>Modify the CSS file to change styles instantly</li>
+                <li>Update the JavaScript file to see behavior changes</li>
+            </ul>
+        </div>
+
+        <div class="counter-section">
+            <h3>Interactive Counter</h3>
+            <p>Click the button to increment the counter (JavaScript powered):</p>
+            <div class="counter-display">
+                <span id="counter">0</span>
+            </div>
+            <button id="increment-btn" class="btn">Increment</button>
+            <button id="reset-btn" class="btn btn-secondary">Reset</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
